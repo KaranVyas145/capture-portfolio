@@ -18,7 +18,12 @@ import {
   sliderContainer,
 } from "../animation";
 
+import { UseScroll } from "../Components/useScroll";
+import ScrollTop from "../Components/ScrollTop";
+
 const OurWork = () => {
+  const [element, controls] = UseScroll();
+  const [element2, controls2] = UseScroll();
   return (
     <Work
       variants={pageAnimation}
@@ -42,24 +47,26 @@ const OurWork = () => {
           </Hide>
         </Link>
       </Movie>
-      <Movie>
-        <motion.h2 variants={fade}>The Racer</motion.h2>
+      <Movie ref={element} variants={fade} animate={controls} initial="hidden">
+        <h2>The Racer</h2>
         <motion.div variants={lineAnim} className="line"></motion.div>
         <Link to="/work/the-racer">
-          <Hide>
-            <motion.img variants={photoAnim} src={theracer} alt="The Racer" />
-          </Hide>
+          <img src={theracer} alt="The Racer" />
         </Link>
       </Movie>
-      <Movie>
+      <Movie
+        ref={element2}
+        variants={fade}
+        animate={controls2}
+        initial="hidden"
+      >
         <motion.h2 variants={fade}>Good Times</motion.h2>
         <motion.div variants={lineAnim} className="line"></motion.div>
         <Link to="/work/good-times">
-          <Hide>
-            <motion.img variants={photoAnim} src={goodtimes} alt="Good Times" />
-          </Hide>
+          <img src={goodtimes} alt="Good Times" />
         </Link>
       </Movie>
+      <ScrollTop />
     </Work>
   );
 };
@@ -68,12 +75,15 @@ const Work = styled(motion.div)`
   min-height: 100vh;
   overflow: hidden;
   padding: 5rem 10rem;
+  @media (max-width: 1300px) {
+    padding: 2rem 2rem;
+  }
   h2 {
     padding: 1rem 0;
   }
 `;
 
-const Movie = styled.div`
+const Movie = styled(motion.div)`
   padding-bottom: 10rem;
   .line {
     height: 0.5rem;
